@@ -7,6 +7,7 @@ Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
 */
    function showPage(list, page){
+
       //limit 9 student's info per page
       const itemsPerPage = 9;
 
@@ -18,22 +19,30 @@ This function will create and insert/append the elements needed to display a "pa
       const ul = document.querySelector(`.student-list`);
       const li = document.createElement('li'); 
       ul.innerHTML = '';
-      
-      //create li per student from data.js and return html
-      function createLi(person){      
+
+      //Check to see if there is any value in search result
+      if(list.length === 0){
          let html = `
-            <li class="student-item cf">
-            <div class="student-details">
-            <img class="avatar" src="${person.picture.large}" alt="Profile Picture">
-            <h3>${person.name.first} ${person.name.last}</h3>
-            <span class="email">${person.email}</span>
-            </div>
-            <div class="joined-details">
-            <span class="date">Joined ${person.registered.date}</span>
-            </div>
-            </li>`; 
-         return html;
-      }
+         No Results found!`; 
+         ul.insertAdjacentHTML('beforeend', html);
+
+      }else{
+         //create li per student from data.js and return html
+         function createLi(person){      
+            let html = `
+               <li class="student-item cf">
+               <div class="student-details">
+               <img class="avatar" src="${person.picture.large}" alt="Profile Picture">
+               <h3>${person.name.first} ${person.name.last}</h3>
+               <span class="email">${person.email}</span>
+               </div>
+               <div class="joined-details">
+               <span class="date">Joined ${person.registered.date}</span>
+               </div>
+               </li>`; 
+            return html;
+            }
+         }
 
       //create li html under ul section on each page
       for(let i = 0; i < list.length; i++){
@@ -74,9 +83,11 @@ This function will create and insert/append the elements needed to display a "pa
          linkList.insertAdjacentHTML('beforeend', html);
       }    
 
-   // set active class to first button as default
-   let buttonClassName = document.querySelector("button");
-   buttonClassName.className = "active";
+   // set active class to first button as default if the button exists
+   let buttonClassName = document.querySelector(".link-list button");
+   if(buttonClassName){
+      buttonClassName.className = "active";
+   }
 
    // create an event listener on the `link-list` (button) element
    linkList.addEventListener('click', (e) => {
@@ -96,7 +107,6 @@ This function will create and insert/append the elements needed to display a "pa
    };
 
    const h = document.querySelector(`.header`);
-   h.innerHTML = '';
 
    //create the search feature
    let html = `
